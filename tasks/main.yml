@@ -1,2 +1,5 @@
 ---
 # tasks file for ansible-role-pass
+
+- name: Create directory
+  file: path=~/.pass state=directory
