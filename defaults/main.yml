@@ -1,0 +1,3 @@
+---
+# defaults file for ansible-role-pass
+pass_version: 1.6.5
