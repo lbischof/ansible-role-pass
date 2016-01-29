@@ -1,5 +1,20 @@
 ---
 # tasks file for ansible-role-pass
+- name: Set pass temporary location
+  set_fact: pass_home={{ansible_env.HOME}}/.pass
 
 - name: Create directory
-  file: path=~/.pass state=directory
+  file: path={{pass_home}} state=directory
+
+- name: Download pass
+  get_url: url=http://git.zx2c4.com/password-store/snapshot/password-store-{{pass_version}}.tar.xz dest={{pass_home}}
+  register: pass_downloaded
+
+- name: Extract pass
+  unarchive: src=~/.pass/password-store-{{pass_version}}.tar.xz dest={{pass_home}} copy=no
+  when: pass_downloaded.changed
+
+- name: Run make install
+  command: make install chdir={{pass_home}}/password-store-{{pass_version}} creates=/usr/bin/pass
+  sudo: yes
+
