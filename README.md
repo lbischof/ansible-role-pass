@@ -14,6 +14,8 @@ Role Variables
 
 ```
 pass_version: 1.6.5
+pass_gpg_key: AFBA32A6
+pass_git_remote: kexec.com:pass-store
 ```
 
 Example Playbook
