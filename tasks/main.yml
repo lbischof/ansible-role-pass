@@ -8,7 +8,7 @@
 - name: Install git
   apt: name=git
   become: yes
-  when: pass_git_remote
+  when: pass_git_remote is defined
 
 - name: Set pass temporary location
   set_fact: pass_home={{ansible_env.HOME}}/.pass
@@ -34,14 +34,14 @@
 - name: Create git repository
   command: pass git init creates=~/.password-store/.git
   register: pass_git_init
-  when: pass_git_remote
+  when: pass_git_remote is defined
 
 - name: Get git remote
   command: git remote chdir=~/.password-store
   changed_when: False
   register: pass_remotes
-  when: pass_git_remote
+  when: pass_git_remote is defined
 
 - name: Add git remote
   command: git remote add origin {{pass_git_remote}} chdir=~/.password-store
-  when: pass_git_remote and not pass_remotes.stdout
+  when: pass_git_remote is defined and not pass_remotes.stdout
