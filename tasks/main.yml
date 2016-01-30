@@ -1,5 +1,15 @@
 ---
 # tasks file for ansible-role-pass
+
+- name: Install dependencies
+  apt: name=tree
+  become: yes
+
+- name: Install git
+  apt: name=git
+  become: yes
+  when: pass_git_remote
+
 - name: Set pass temporary location
   set_fact: pass_home={{ansible_env.HOME}}/.pass
 
@@ -16,5 +26,22 @@
 
 - name: Run make install
   command: make install chdir={{pass_home}}/password-store-{{pass_version}} creates=/usr/bin/pass
-  sudo: yes
+  become: yes
 
+- name: Initialize pass
+  copy: content={{pass_gpg_key}} dest=~/.password-store/.gpg-id
+
+- name: Create git repository
+  command: pass git init creates=~/.password-store/.git
+  register: pass_git_init
+  when: pass_git_remote
+
+- name: Get git remote
+  command: git remote chdir=~/.password-store
+  changed_when: False
+  register: pass_remotes
+  when: pass_git_remote
+
+- name: Add git remote
+  command: git remote add origin {{pass_git_remote}} chdir=~/.password-store
+  when: not pass_remotes.stdout
