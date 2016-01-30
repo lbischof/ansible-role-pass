@@ -29,7 +29,7 @@
   become: yes
 
 - name: Initialize pass
-  copy: content={{pass_gpg_key}} dest=~/.password-store/.gpg-id
+  command: pass init "{{pass_gpg_key}}" creates=~/.password-store/
 
 - name: Create git repository
   command: pass git init creates=~/.password-store/.git
