@@ -1,7 +1,7 @@
 ---
 # tasks file for ansible-role-pass
 
-- name: Install dependencies
+- name: Install tree
   apt: name=tree
   become: yes
 
@@ -44,4 +44,4 @@
 
 - name: Add git remote
   command: git remote add origin {{pass_git_remote}} chdir=~/.password-store
-  when: not pass_remotes.stdout
+  when: pass_git_remote and not pass_remotes.stdout
