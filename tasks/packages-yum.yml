@@ -1,14 +1,6 @@
 ---
 
-- name: Install tree
-  yum: name=tree
+- name: Install dependencies
+  yum: name={{item}}
   become: yes
-
-- name: Install git
-  yum: name=git
-  become: yes
-  when: pass_git_remote is defined
-
-- name: Install make
-  yum: name=make
-  become: yes
+  with_items: "{{pass_packages}}"
