@@ -1,35 +1,14 @@
 ---
 # tasks file for ansible-role-pass
 
-- name: apt | Install tree
-  apt: name=tree
+- include: packages-apt.yml
   when: ansible_pkg_mgr == 'apt'
-  become: yes
 
-- name: yum | Install tree
-  yum: name=tree
+- include: packages-yum.yml
   when: ansible_pkg_mgr == 'yum'
-  become: yes
 
-- name: dnf | Install tree
-  dnf: name=tree
+- include: packages-dnf.yml
   when: ansible_pkg_mgr == 'dnf'
-  become: yes
-
-- name: apt | Install git
-  apt: name=git
-  become: yes
-  when: pass_git_remote is defined and ansible_pkg_mgr == 'apt'
-
-- name: yum | Install git
-  yum: name=git
-  become: yes
-  when: pass_git_remote is defined and ansible_pkg_mgr == 'yum'
-
-- name: dnf | Install git
-  dnf: name=git
-  become: yes
-  when: pass_git_remote is defined and ansible_pkg_mgr == 'dnf'
 
 - name: Set pass temporary location
   set_fact: pass_home={{ansible_env.HOME}}/.pass
@@ -44,21 +23,6 @@
 - name: Extract pass
   unarchive: src=~/.pass/password-store-{{pass_version}}.tar.xz dest={{pass_home}} copy=no
   when: pass_downloaded.changed
-
-- name: apt | Install make
-  apt: name=make
-  when: ansible_pkg_mgr == 'apt'
-  become: yes
-
-- name: yum | Install make
-  yum: name=make
-  when: ansible_pkg_mgr == 'yum'
-  become: yes
-
-- name: dnf | Install make
-  dnf: name=make
-  when: ansible_pkg_mgr == 'dnf'
-  become: yes
 
 - name: Run make install
   command: make install chdir={{pass_home}}/password-store-{{pass_version}} creates=/usr/bin/pass

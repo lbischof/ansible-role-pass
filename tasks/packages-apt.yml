@@ -1,0 +1,14 @@
+---
+
+- name: Install tree
+  apt: name=tree
+  become: yes
+
+- name: Install git
+  apt: name=git
+  become: yes
+  when: pass_git_remote is defined
+
+- name: Install make
+  apt: name=make
+  become: yes
