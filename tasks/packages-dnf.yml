@@ -1,0 +1,6 @@
+---
+
+- name: Install dependencies
+  dnf: name={{item}
+  become: yes
+  with_items: "{{pass_packages}}"

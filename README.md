@@ -11,7 +11,7 @@ Pass Ansible Role
 Requirements
 ------------
 
-None
+The `pwgen` package is used to generate passwords and must be available in the repositories. On Redhat and Centos you can add `epel-release` to `pass_packages` or remove `pwgen` from the list.
 
 Role Variables
 --------------
@@ -19,7 +19,12 @@ Role Variables
 ```
 pass_version: 1.6.5
 pass_gpg_key: AFBA32A6
-pass_git_remote: kexec.com:pass-store
+pass_git_remote: git@github.com:user/repo
+pass_packages:
+    - tree
+    - git
+    - make
+    - pwgen
 ```
 
 Example Playbook

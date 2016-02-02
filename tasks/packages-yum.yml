@@ -1,0 +1,6 @@
+---
+
+- name: Install dependencies
+  yum: name={{item}}
+  become: yes
+  with_items: "{{pass_packages}}"
