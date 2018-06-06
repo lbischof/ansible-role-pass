@@ -5,6 +5,9 @@
 Pass Ansible Role
 ====
 
+https://gitlab.com/lbischof/ansible-role-pass
+![Moved to GitLab](https://i.imgur.com/wGgvnPq.png)
+
 [pass](http://www.passwordstore.org) is a very simple password store that keeps passwords inside gpg encrypted files inside a simple directory tree. The pass utility provides a series of commands for manipulating the password store, allowing the user to add, remove, edit, synchronize, generate, and manipulate passwords.
 
 
